@@ -5,6 +5,7 @@
 # shellcheck source=bin/utils
 source "$BIN_DIR/utils"
 set -e
+TEST1="$(cat "$ENV_DIR/TEST1")"
 
 if [[ -f test123/Pipfile.lock ]]; then
     if [[ -f .heroku/python/Pipfile.lock.sha256 ]]; then
@@ -76,7 +77,7 @@ if [ ! "$SKIP_PIPENV_INSTALL" ]; then
             openssl dgst -sha256 test123/Pipfile.lock > .heroku/python/Pipfile.lock.sha256
 
             puts-step "2Installing dependencies with Pipenv $PIPENV_VERSION…"
-            cd test123
+            cd $TEST1
             /app/.heroku/python/bin/pipenv install --system --deploy 2>&1 | indent
             cd -
         fi
