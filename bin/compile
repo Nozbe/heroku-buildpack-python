@@ -266,8 +266,8 @@ mtime "pip.uninstall.time" "${start}"
 # This allows for people to ship a setup.py application to Heroku
 # (which is rare, but I vouch that it should work!)
 
-if [ ! -f $TEST1/requirements.txt ] && [ ! -f $TEST1/Pipfile ]; then
-  echo "-e ." > requirements.txt
+if [ ! -f ./test123/requirements.txt ] && [ ! -f ./test123/Pipfile ]; then
+  echo "-e ." > ./test123/requirements.txt
 fi
 
 # Fix egg-links.
