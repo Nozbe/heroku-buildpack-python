@@ -28,7 +28,7 @@ export_env_dir() {
 BUILD_DIR=$1
 
 # Exit early if app is clearly not Python.
-if [ ! -f "$BUILD_DIR/requirements.txt" ] && [ ! -f "$BUILD_DIR/setup.py" ] && [ ! -f "$BUILD_DIR/$TEST1/Pipfile" ]; then
+if [ ! -f "$BUILD_DIR/requirements.txt" ] && [ ! -f "$BUILD_DIR/setup.py" ] && [ ! -f "$BUILD_DIR/test123/Pipfile" ]; then
   exit 1
 fi
 
