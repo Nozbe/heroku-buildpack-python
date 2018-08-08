@@ -13,5 +13,9 @@
 #     $ bin/detect <build-dir> <cache-dir>
 
 # Exit early if app is clearly not Python.
+TEST1="$(cat "$ENV_DIR/TEST1")"
+if [ ! -f "$BUILD_DIR/$TEST1/requirements.txt" ] && [ ! -f "$BUILD_DIR/$TEST1/setup.py" ] && [ ! -f "$BUILD_DIR/$TEST1/Pipfile" ]; then
+    exit 1
+fi
 
 echo Python
