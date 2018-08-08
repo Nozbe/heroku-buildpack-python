@@ -13,6 +13,7 @@
 #     $ bin/compile <build-dir> <cache-dir> <env-path>
 
 ## ENV:
+TEST1="$(cat "$ENV_DIR/TEST1")"
 
 # Fail fast and fail hard.
 set -eo pipefail
@@ -253,8 +254,8 @@ mtime "pip.uninstall.time" "${start}"
 # This allows for people to ship a setup.py application to Heroku
 # (which is rare, but I vouch that it should work!)
 
-if [ ! -f ./test123/requirements.txt ] && [ ! -f ./test123/Pipfile ]; then
-  echo "-e ." > ./test123/requirements.txt
+if [ ! -f ./$TEST1/requirements.txt ] && [ ! -f ./$TEST1/Pipfile ]; then
+  echo "-e ." > ./$TEST1/requirements.txt
 fi
 
 # Fix egg-links.
