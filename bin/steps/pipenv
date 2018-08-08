@@ -68,7 +68,7 @@ if [ ! "$SKIP_PIPENV_INSTALL" ]; then
         # Install the dependencies.
         elif [[ ! -f test123/Pipfile.lock ]]; then
             puts-step "Installing dependencies with Pipenv $PIPENV_VERSION…"
-            cd test123
+            puts-step "Test"
             /app/.heroku/python/bin/pipenv install --system --skip-lock 2>&1 | indent
             cd -
         else
