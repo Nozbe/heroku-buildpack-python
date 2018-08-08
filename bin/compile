@@ -13,7 +13,6 @@
 #     $ bin/compile <build-dir> <cache-dir> <env-path>
 
 ## ENV:
-TEST1="$(cat "$ENV_DIR/TEST1")"
 
 # Fail fast and fail hard.
 set -eo pipefail
@@ -34,6 +33,7 @@ ROOT_DIR=$(dirname "$BIN_DIR")
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
+PYTHON_APP_DIR="$(cat "$ENV_DIR/PYTHON_APP_DIR")"
 
 # Export Path variables, for use in sub-scripts.
 export BUILD_DIR CACHE_DIR ENV_DIR
@@ -254,8 +254,8 @@ mtime "pip.uninstall.time" "${start}"
 # This allows for people to ship a setup.py application to Heroku
 # (which is rare, but I vouch that it should work!)
 
-if [ ! -f ./$TEST1/requirements.txt ] && [ ! -f ./$TEST1/Pipfile ]; then
-  echo "-e ." > ./$TEST1/requirements.txt
+if [ ! -f ./$PYTHON_APP_DIR/requirements.txt ] && [ ! -f ./$PYTHON_APP_DIR/Pipfile ]; then
+  echo "-e ." > ./$PYTHON_APP_DIR/requirements.txt
 fi
 
 # Fix egg-links.
