@@ -7,15 +7,15 @@ source "$BIN_DIR/utils"
 set -e
 TEST1="$(cat "$ENV_DIR/TEST1")"
 
-if [[ -f test123/Pipfile.lock ]]; then
+if [[ -f $TEST1/Pipfile.lock ]]; then
     if [[ -f .heroku/python/Pipfile.lock.sha256 ]]; then
-        if [[ $(openssl dgst -sha256 test123/Pipfile.lock) == $(cat .heroku/python/Pipfile.lock.sha256) ]]; then
+        if [[ $(openssl dgst -sha256 $TEST1/Pipfile.lock) == $(cat .heroku/python/Pipfile.lock.sha256) ]]; then
             # Measure that we're using Pipenv.
             mcount "tool.pipenv"
 
             # Don't skip installation of there are git deps.
-            if ! grep -q 'git' test123/Pipfile.lock; then
-                echo "Skipping installation, as test123/Pipfile.lock hasn't changed since last deploy." | indent
+            if ! grep -q 'git' $TEST1/Pipfile.lock; then
+                echo "Skipping installation, as $TEST1/Pipfile.lock hasn't changed since last deploy." | indent
 
                 mcount "tool.pipenv"
                 export SKIP_PIPENV_INSTALL=1
@@ -28,7 +28,7 @@ fi
 
 if [ ! "$SKIP_PIPENV_INSTALL" ]; then
     # Pipenv support (Generate requirements.txt with pipenv).
-    if [[ -f test123/Pipfile ]]; then
+    if [[ -f $TEST1/Pipfile ]]; then
         # Measure that we're using Pipenv.
         mcount "tool.pipenv"
 
@@ -67,14 +67,14 @@ if [ ! "$SKIP_PIPENV_INSTALL" ]; then
             /app/.heroku/python/bin/pipenv install --dev --system --deploy 2>&1 | cleanup | indent
 
         # Install the dependencies.
-        elif [[ ! -f test123/Pipfile.lock ]]; then
+        elif [[ ! -f $TEST1/Pipfile.lock ]]; then
             puts-step "1Installing dependencies with Pipenv $PIPENV_VERSION…"
             /app/.heroku/python/bin/pipenv install --system --skip-lock 2>&1 | indent
         else
-            pipenv-to-pip test123/Pipfile.lock > requirements.txt
+            pipenv-to-pip $TEST1/Pipfile.lock > requirements.txt
             "$BIN_DIR/steps/pip-uninstall"
             cp requirements.txt .heroku/python/requirements-declared.txt
-            openssl dgst -sha256 test123/Pipfile.lock > .heroku/python/Pipfile.lock.sha256
+            openssl dgst -sha256 $TEST1/Pipfile.lock > .heroku/python/Pipfile.lock.sha256
 
             puts-step "2Installing dependencies with Pipenv $PIPENV_VERSION…"
             cd $TEST1
@@ -84,5 +84,5 @@ if [ ! "$SKIP_PIPENV_INSTALL" ]; then
     fi
 else
     export SKIP_PIP_INSTALL=1
-    pipenv-to-pip test123/Pipfile.lock > requirements.txt
+    pipenv-to-pip $TEST1/Pipfile.lock > requirements.txt
 fi
