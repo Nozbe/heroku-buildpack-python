@@ -15,8 +15,10 @@
 BUILD_DIR=$1
 
 # Exit early if app is clearly not Python.
-# if [ ! -f "$BUILD_DIR/$TEST1/requirements.txt" ] && [ ! -f "$BUILD_DIR/$TEST1/setup.py" ] && [ ! -f "$BUILD_DIR/$TEST1/Pipfile" ]; then
-  # exit 1
-# fi
+echo $TEST1
+echo $BUILDDIR
+if [ ! -f "$BUILD_DIR/$TEST1/requirements.txt" ] && [ ! -f "$BUILD_DIR/$TEST1/setup.py" ] && [ ! -f "$BUILD_DIR/$TEST1/Pipfile" ]; then
+  exit 1
+fi
 
 echo Python
