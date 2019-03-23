@@ -6,6 +6,7 @@
 source "$BIN_DIR/utils"
 set -e
 PYTHON_APP_DIR="$(cat "$ENV_DIR/PYTHON_APP_DIR")"
+export PIP_NO_BINARY=psycopg2
 
 if [[ -f $PYTHON_APP_DIR/Pipfile.lock ]]; then
     if [[ -f .heroku/python/Pipfile.lock.sha256 ]]; then
