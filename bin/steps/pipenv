@@ -65,7 +65,9 @@ if [ ! "$SKIP_PIPENV_INSTALL" ]; then
         # Install the test dependencies, for CI.
         if [ "$INSTALL_TEST" ]; then
             puts-step "Installing test dependencies…"
+            cd $PYTHON_APP_DIR
             /app/.heroku/python/bin/pipenv install --dev --system --deploy 2>&1 | cleanup | indent
+            cd -
 
         # Install the dependencies.
         elif [[ ! -f $PYTHON_APP_DIR/Pipfile.lock ]]; then
@@ -82,14 +84,6 @@ if [ ! "$SKIP_PIPENV_INSTALL" ]; then
             puts-step "2Installing dependencies with Pipenv $PIPENV_VERSION…"
             cd $PYTHON_APP_DIR
             /app/.heroku/python/bin/pipenv install --system --deploy 2>&1 | indent
-            cd -
-        fi
-
-        # Install the test dependencies, for CI.
-        if [ "$INSTALL_TEST" ]; then
-            puts-step "Installing test dependencies…"
-            cd $PYTHON_APP_DIR
-            /app/.heroku/python/bin/pipenv install --dev --system --deploy 2>&1 | cleanup | indent
             cd -
         fi
     fi
